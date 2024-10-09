@@ -1,30 +1,34 @@
-    [
+   
+
+
+[
     {
-        "title": "Eat Out",
-        "budget": 30
+        "title": "Food & Dining",
+        "budget": 50
     },
     {
-        "title": "Rent",
-        "budget": 350
+        "title": "Housing",
+        "budget": 400
     },
     {
-        "title": "Groceries",
+        "title": "Utilities",
+        "budget": 100
+    },
+    {
+        "title": "Transportation",
+        "budget": 80
+    },
+    {
+        "title": "Entertainment",
+        "budget": 70
+    },
+    {
+        "title": "Health & Fitness",
         "budget": 90
     },
     {
-        "title" : "Electronics",
-        "budget": 120
-    },
-    {
-        "title" : "Clothing",
-        "budget": 60
-    },
-    {
-        "title" : "Books",
-        "budget": 55
-    },
-    {
-        "title" : "Furniture",
-        "budget": 210
+        "title": "Savings",
+        "budget": 150
     }
 ]
+
