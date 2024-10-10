@@ -4,7 +4,7 @@
 <head>
 
     <!-- This is an SEO Change -->
-    <meta name="description" content="This is personal budget webpage designed for NBAD assignment..">
+    <meta name="description" content="This is personal budget webpage designed for NBAD assignment.">
     <meta http-equiv="Content-Type" content="text/html, charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Budget</title>
@@ -17,7 +17,6 @@
 
 <body>
 
-
     <!-- This is a Semantic HTML Change -->
     <nav class="menu">
         <ul>
@@ -27,8 +26,6 @@
             <li><a href="login.html" role="link" aria-label="Login">Login</a></li>
             <li><a href="https://google.com" role="link" aria-label="Google">Google</a></li>
         </ul>
-        
-
     </nav>
 
     <!-- This is an A11y Change -->
@@ -36,7 +33,6 @@
         <!-- This is an A11y Change -->
         <a href="#main" aria-label="skip to content">Skip to content</a>
     </div>
-
 
     <!-- This is a Semantic HTML Change -->
     <header class="hero">
@@ -46,7 +42,6 @@
 
     <!-- This is a Semantic HTML Change -->
     <main class="center" id="main">
-
         <div class="page-area">
             <!-- This is a Semantic HTML Change -->
             <article>
@@ -69,7 +64,7 @@
                 <h1>Results</h1>
                 <p>
                     People who stick to a financial plan, budgeting every expense, get out of debt faster!
-                    Also, they to live happier lives... since they expend without guilt or fear...
+                    Also, they live happier lives... since they spend without guilt or fear...
                     because they know it is all good and accounted for.
                 </p>
             </article>
@@ -83,9 +78,7 @@
             <div id="pie-chart"></div>
 
         </div>
-
     </main>
-
 
     <!-- This is a Semantic HTML Change -->
     <footer class="bottom">
@@ -93,7 +86,7 @@
             Changes done by Sushma Kolli.
         </div>
     </footer>
-//By Sushma kolli
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
         integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
         crossorigin="anonymous"></script>
@@ -107,66 +100,53 @@
         var chartData = {
             datasets: [
                 {
-                    data: [], 
-                    backgroundColor: [ 
-                        '#34a853', // Green
-                        '#ea4335', // Red
-                        '#fbbc05', // Yellow
-                        '#4285f4', // Blue
-                        '#ab47bc', // Purple
-                        '#00acc1', // Cyan
-                        '#ff7043', // Orange
-                    ],
+                    data: [], // Initialize empty array for data
+                    backgroundColor: [] // Initialize empty array for background colors
                 }
             ],
-    
-            labels: [] 
+            labels: [] // Initialize empty array for labels
         };
         
-        
         const formattedData = [];
-    
+
         // Create an SVG container for the D3 pie chart
         var svgContainer = d3.select("#pie-chart")
             .append("svg")
             .append("g");
-    
+
         // Add groups for slices, labels, and lines
-        svgContainer.append("g")
-            .attr("class", "slice-section");
-        svgContainer.append("g")
-            .attr("class", "text-labels");
-        svgContainer.append("g")
-            .attr("class", "connecting-lines");
-    
+        svgContainer.append("g").attr("class", "slice-section");
+        svgContainer.append("g").attr("class", "text-labels");
+        svgContainer.append("g").attr("class", "connecting-lines");
+
         // Define the dimensions and radius of the pie chart
         var chartWidth = 650,
             chartHeight = 300,
             pieRadius = Math.min(chartWidth, chartHeight) / 2;
-    
+
         // Define the pie layout using D3
         var pieLayout = d3.layout.pie()
             .sort(null)
             .value(function (d) {
                 return d.value;
             });
-    
+
         // Define the arc for the slices
         var arcPath = d3.svg.arc()
             .outerRadius(pieRadius * 0.8)
             .innerRadius(pieRadius * 0.4);
-    
+
         // Define the arc for the lines connecting labels
         var labelArc = d3.svg.arc()
             .innerRadius(pieRadius * 0.9)
             .outerRadius(pieRadius * 0.9);
-    
+
         // Center the pie chart SVG
         svgContainer.attr("transform", "translate(" + chartWidth / 2 + "," + chartHeight / 2 + ")");
-    
+
         // Function to retrieve the unique key for each pie slice
         var uniqueKey = function (d) { return d.data.label; };
-    
+
         // Define a new color scale for categories
         var colorScale = d3.scale.ordinal()
             .domain(["Food & Dining", "Housing", "Utilities", "Transportation", "Entertainment", "Health & Fitness", "Savings"])
@@ -179,29 +159,27 @@
                 "#00acc1", // Cyan
                 "#ff7043"  // Orange
             ]);
-    
+
         // Function to create the chart using Chart.js
         function initializeChart() {
             var ctx = document.getElementById("myChart").getContext("2d");
             var pieChart = new Chart(ctx, {
-                type: 'pie',  
-                data: chartData  
+                type: 'pie',
+                data: chartData  // Now chartData contains the fetched data
             });
         }
-    
-       
+
         function updateChart(data) {
             console.log(data);
-    
-            
+
             var slice = svgContainer.select(".slice-section").selectAll("path.slice")
                 .data(pieLayout(data), uniqueKey);
-    
+
             slice.enter()
                 .insert("path")
                 .style("fill", function (d) { return colorScale(d.data.label); })
                 .attr("class", "slice");
-    
+
             slice
                 .transition().duration(1000)
                 .attrTween("d", function (d) {
@@ -212,25 +190,21 @@
                         return arcPath(interpolate(t));
                     };
                 });
-    
-            slice.exit()
-                .remove();
-    
-            // ------- Update TEXT LABELS -------
+
+            slice.exit().remove();
+
             var text = svgContainer.select(".text-labels").selectAll("text")
                 .data(pieLayout(data), uniqueKey);
-    
+
             text.enter()
                 .append("text")
                 .attr("dy", ".35em")
-                .text(function (d) {
-                    return d.data.label;
-                });
-    
+                .text(function (d) { return d.data.label; });
+
             function calculateMidAngle(d) {
                 return d.startAngle + (d.endAngle - d.startAngle) / 2;
             }
-    
+
             text.transition().duration(1000)
                 .attrTween("transform", function (d) {
                     this._current = this._current || d;
@@ -252,17 +226,14 @@
                         return calculateMidAngle(d2) < Math.PI ? "start" : "end";
                     };
                 });
-    
-            text.exit()
-                .remove();
-    
-            // ------- Update POLYLINES -------
+
+            text.exit().remove();
+
             var polyline = svgContainer.select(".connecting-lines").selectAll("polyline")
                 .data(pieLayout(data), uniqueKey);
-    
-            polyline.enter()
-                .append("polyline");
-    
+
+            polyline.enter().append("polyline");
+
             polyline.transition().duration(1000)
                 .attrTween("points", function (d) {
                     this._current = this._current || d;
@@ -275,33 +246,38 @@
                         return [arcPath.centroid(d2), labelArc.centroid(d2), pos];
                     };
                 });
-    
-            polyline.exit()
-                .remove();
+
+            polyline.exit().remove();
         }
-    
+
         // Fetch budget data from the server
         function fetchBudget() {
             axios.get('/budget')
                 .then(function (response) {
-                    for (var i = 0; i < response.data.length; i++) {
-                        chartData.datasets[0].data[i] = response.data[i].budget;  
-                        chartData.labels[i] = response.data[i].title;  
-    
+                    const budgetData = response.data.myBudget;  // Assuming your API response structure
+
+                    for (var i = 0; i < budgetData.length; i++) {
+                        chartData.datasets[0].data.push(budgetData[i].relatedValue);  
+                        chartData.datasets[0].backgroundColor.push(budgetData[i].color);  
+                        chartData.labels.push(budgetData[i].title);
+
                         formattedData.push({
-                            "label": response.data[i].title,
-                            "value": response.data[i].budget
+                            "label": budgetData[i].title,
+                            "value": budgetData[i].relatedValue
                         });
                     }
-                    initializeChart();  
-                    updateChart(formattedData);  
+
+                    initializeChart();  // Initialize Chart.js chart after data is fetched
+                    updateChart(formattedData);  // Update D3 pie chart with the fetched data
+                })
+                .catch(function (error) {
+                    console.error('Error fetching budget data:', error);
                 });
         }
-    
-       
+
         fetchBudget();
     </script>
-    
+
 </body>
 
 </html>
